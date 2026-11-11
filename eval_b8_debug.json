@@ -1,0 +1,202 @@
+{
+  "summary": {
+    "total_cases": 1,
+    "scored_cases": 1,
+    "unscored_cases": 0,
+    "score_0_100": 100.0,
+    "partial_mean_0_100": null,
+    "bonus_points_0_15": null
+  },
+  "config": {
+    "provider": "openrouter",
+    "model": "openai/gpt-4o-mini",
+    "judge_provider": "openrouter",
+    "judge_model": "openai/gpt-4o-mini",
+    "max_steps": 16,
+    "dataset": "bonus"
+  },
+  "cases": [
+    {
+      "id": "B8",
+      "question": "So sánh sự cố DigitalOcean App Platform rl0fl1jtxw7l và Vercel w661l7k3kf4p: trạng thái, ảnh hưởng ứng dụng đang chạy và build/deploy, thời điểm, nguồn. Có đủ căn cứ nói chúng cùng nguyên nhân không?",
+      "expected": "Cả hai resolved. DigitalOcean incident nói deploy/scale bị ảnh hưởng, ứng dụng đang chạy trước incident không bị ảnh hưởng; Vercel incident nói build backlog và Dashboard degraded. Dẫn hai URL và không kết luận cùng nguyên nhân.",
+      "scenario": "normal",
+      "provider": "openrouter",
+      "model": "openai/gpt-4o-mini",
+      "judge_provider": "openrouter",
+      "judge_model": "openai/gpt-4o-mini",
+      "result": {
+        "status": "completed",
+        "answer": "Dưới đây là thông tin so sánh về sự cố của DigitalOcean và Vercel:\n\n### 1. DigitalOcean\n- **Sự cố**: App Platform Deployments\n- **Trạng thái**: Đã được giải quyết.\n- **Thời gian**: Diễn ra từ 04:34 đến 12:15 UTC ngày 13 tháng 10 năm 2026.\n- **Ảnh hưởng**: Khách hàng gặp phải sự gián đoạn dịch vụ ảnh hưởng đến các hoạt động triển khai trên App Platform. Không thể triển khai ứng dụng mới hoặc mở rộng các triển khai hiện có. Tuy nhiên, các ứng dụng đã chạy trước đó vẫn hoạt động bình thường.\n- **Nguyên nhân**: Một bản cập nhật phần mềm đã ngăn chặn các container ứng dụng khởi động trên các nút cơ sở hạ tầng mới. Đội ngũ Kỹ thuật đã khôi phục tình trạng bình thường bằng cách quay lại bản cập nhật. \n- **Nguồn**: [DigitalOcean Status](https://stspg.io/txrkbrvfl4bz)\n\n### 2. Vercel\n- **Sự cố**: Build delays and degraded Vercel Dashboard performance\n- **Trạng thái**: Đã được giải quyết.\n- **Thời gian**: Diễn ra vào ngày 5 tháng 11 năm 2026, bắt đầu từ 18:25 UTC và kết thúc khoảng 18:50 UTC.\n- **Ảnh hưởng**: Quá trình xây dựng bị trễ dẫn đến tác động đến Vercel CI và hiệu năng của Dashboard.\n- **Nguyên nhân**: Đã thực hiện các hành động điều chỉnh để giảm độ trễ và tiếp tục xử lý các bản xây dựng bị chậm lại. \n- **Nguồn**: [Vercel Status](https://stspg.io/y6fmg7s9m5t2)\n\n### Kết luận\n- **Sự cố**: Cả hai sự cố đều đã được giải quyết, quá trình hoạt động đã trở lại bình thường.\n- **Ảnh hưởng ứng dụng**: DigitalOcean đã ảnh hưởng đến khả năng triển khai và mở rộng, trong khi Vercel gặp vấn đề về độ trễ trong xây dựng mà không ảnh hưởng đến các ứng dụng đang chạy.\n- **Nguyên nhân**: Không có căn cứ xác đáng để nói rằng chúng có chung nguyên nhân, vì sự cố trên DigitalOcean liên quan đến bản cập nhật phần mềm và việc quay lại bản cập nhật, trong khi Vercel khắc phục vấn đề độ trễ qua các hành động điều chỉnh.\n\nDo đó, không thể nói rằng hai sự cố này có chung nguyên nhân.",
+        "trace": [
+          {
+            "step": 1,
+            "event": "tool",
+            "name": "get_incident_details",
+            "arguments": {
+              "provider": "digitalocean",
+              "incident_id": "rl0fl1jtxw7l"
+            },
+            "result": {
+              "ok": true,
+              "provider": "digitalocean",
+              "id": "rl0fl1jtxw7l",
+              "name": "App Platform Deployments",
+              "status": "resolved",
+              "created_at": "2026-10-13T17:09:47.490Z",
+              "updated_at": "2026-10-13T17:09:48.123Z",
+              "captured_at": "2026-11-10T14:45:52.407939+00:00",
+              "components": [
+                "Global"
+              ],
+              "updates": [
+                {
+                  "status": "resolved",
+                  "created_at": "2026-10-13T17:09:47.560Z",
+                  "body": "Between 04:34 and 12:15 UTC, customers experienced service interruptions affecting App Platform deployment operations. During this window, customers may have been unable to deploy new applications or scale existing deployments. Applications already running prior to the incident were unaffected and continued to operate normally.\n\nThe disruption was caused by a software update that prevented application containers from starting on newly provisioned infrastructure nodes. Our Engineering team rolled back the update and restored the affected nodes. App Platform deployment and scaling operations have recovered and are operating normally.\n\nWe sincerely apologize for any inconvenience this caused. If you continue to experience any issues, please open a support ticket and our team will be happy to assist you.",
+                  "truncated": false
+                }
+              ],
+              "offset": 0,
+              "total_updates": 1,
+              "next_offset": null,
+              "url": "https://stspg.io/txrkbrvfl4bz"
+            }
+          },
+          {
+            "step": 1,
+            "event": "tool",
+            "name": "get_incident_details",
+            "arguments": {
+              "provider": "vercel",
+              "incident_id": "w661l7k3kf4p"
+            },
+            "result": {
+              "ok": true,
+              "provider": "vercel",
+              "id": "w661l7k3kf4p",
+              "name": "Build delays and degraded Vercel Dashboard performance",
+              "status": "resolved",
+              "created_at": "2026-11-05T18:25:10.527Z",
+              "updated_at": "2026-11-05T18:50:23.139Z",
+              "captured_at": "2026-11-10T14:45:50.457875+00:00",
+              "components": [
+                "Dashboard",
+                "Builds"
+              ],
+              "updates": [
+                {
+                  "status": "resolved",
+                  "created_at": "2026-11-05T18:50:23.107Z",
+                  "body": "This incident has been resolved. The build backlog has been cleared.",
+                  "truncated": false
+                },
+                {
+                  "status": "monitoring",
+                  "created_at": "2026-11-05T18:35:45.034Z",
+                  "body": "We are seeing recovery after taking corrective action to address latency. We are continuing to process delayed builds. Vercel CI has also been affected. We will provide additional updates as they become available.",
+                  "truncated": false
+                }
+              ],
+              "offset": 0,
+              "total_updates": 3,
+              "next_offset": 2,
+              "url": "https://stspg.io/y6fmg7s9m5t2"
+            }
+          }
+        ],
+        "usage": [
+          {
+            "prompt_tokens": 1151,
+            "completion_tokens": 77,
+            "total_tokens": 1228,
+            "cost": 0.00021885,
+            "is_byok": false,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "cache_write_tokens": 0,
+              "audio_tokens": 0,
+              "video_tokens": 0
+            },
+            "cost_details": {
+              "upstream_inference_cost": 0.00021885,
+              "upstream_inference_prompt_cost": 0.00017265,
+              "upstream_inference_completions_cost": 4.62e-05
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "image_tokens": 0,
+              "audio_tokens": 0
+            }
+          },
+          {
+            "prompt_tokens": 1868,
+            "completion_tokens": 570,
+            "total_tokens": 2438,
+            "cost": 0.0005358,
+            "is_byok": false,
+            "prompt_tokens_details": {
+              "cached_tokens": 1152,
+              "cache_write_tokens": 0,
+              "audio_tokens": 0,
+              "video_tokens": 0
+            },
+            "cost_details": {
+              "upstream_inference_cost": 0.0005358,
+              "upstream_inference_prompt_cost": 0.0001938,
+              "upstream_inference_completions_cost": 0.000342
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "image_tokens": 0,
+              "audio_tokens": 0
+            }
+          }
+        ]
+      },
+      "grade": {
+        "score": 100,
+        "raw_judge_score": 100,
+        "dimensions": {
+          "factuality": 40,
+          "completeness": 25,
+          "evidence": 20,
+          "boundaries": 15
+        },
+        "status": "scored",
+        "reason": "Trả lời đúng với tính chính xác của thông tin về hai sự cố, đưa ra các chi tiết cụ thể và rõ ràng từ nguồn. Tuy nhiên, thiếu phần giải thích về nguyên nhân cho sự cố DigitalOcean và một số thông tin như thời điểm sự cố của DigitalOcean không rõ ràng với thời gian khởi đầu và kết thúc.",
+        "improvement": "Cần cung cấp thêm thông tin về thời gian cụ thể và rõ ràng cho cả hai sự cố, cũng như nguyên nhân cụ thể ảnh hưởng đến DigitalOcean để đầy đủ hơn.",
+        "mechanical": {
+          "violations": [],
+          "score_cap": 100,
+          "tool_calls": 2,
+          "tool_steps": 1
+        },
+        "judge_usage": {
+          "prompt_tokens": 1834,
+          "completion_tokens": 157,
+          "total_tokens": 1991,
+          "cost": 0.0003693,
+          "is_byok": false,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "cache_write_tokens": 0,
+            "audio_tokens": 0,
+            "video_tokens": 0
+          },
+          "cost_details": {
+            "upstream_inference_cost": 0.0003693,
+            "upstream_inference_prompt_cost": 0.0002751,
+            "upstream_inference_completions_cost": 9.42e-05
+          },
+          "completion_tokens_details": {
+            "reasoning_tokens": 0,
+            "image_tokens": 0,
+            "audio_tokens": 0
+          }
+        },
+        "judge_trace_truncated": false
+      }
+    }
+  ]
+}
