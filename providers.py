@@ -18,18 +18,12 @@ def post_json(url, headers, payload):
         with urllib.request.urlopen(req, timeout=60) as response:
             return json.load(response)
     except urllib.error.HTTPError as exc:
-        # Do not print response bodies: they may contain account or request data.
         raise RuntimeError(f'Provider trả HTTP {exc.code}; kiểm tra model, key và quota.') from exc
     except urllib.error.URLError as exc:
         raise RuntimeError(f'Không kết nối được provider: {exc.reason}') from exc
 
 
 class Provider:
-    """complete(messages, schemas) -> {message, calls, finish, usage}.
-
-    messages: system/user/assistant/tool theo format Chat Completions. message trả về
-    cần được append nguyên vẹn; tool result có role, tool_call_id, content (JSON string).
-    """
     def __init__(self, name, model):
         if name not in CONFIG:
             raise ValueError(f'Provider không hợp lệ: {name}')
@@ -44,10 +38,18 @@ class Provider:
     def complete(self, messages, schemas):
         if self.name == 'anthropic':
             return self._anthropic(messages, schemas)
+        
         payload = {'model': self.model, 'messages': messages}
         if schemas:
             payload['tools'] = schemas
-        data = post_json(self.url, {'Authorization': f'Bearer {self.key}'}, payload)
+            
+        headers = {'Authorization': f'Bearer {self.key}'}
+        if self.name == 'openrouter':
+            headers['HTTP-Referer'] = 'https://github.com'
+            headers['X-Title'] = 'ReactLoopAgent'
+
+        data = post_json(self.url, headers, payload)
+        
         choice = data['choices'][0]
         message = choice['message']
         calls = [{'id': c['id'], 'name': c['function']['name'], 'arguments': c['function']['arguments']} for c in message.get('tool_calls', [])]
